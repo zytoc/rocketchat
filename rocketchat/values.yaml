@@ -11,8 +11,8 @@ imagePullSecrets: []
 ## set it to a domain pointing to your loadbalancer
 # host:
 
-replicaCount: 1
-minAvailable: 1
+replicaCount: 3
+minAvailable: 2
 
 smtp:
   enabled: false
@@ -59,7 +59,7 @@ extraVolumeMounts:
 ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
 ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
 ##
-podAntiAffinity: ""
+podAntiAffinity: "hard"
 
 ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
 ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
@@ -103,7 +103,12 @@ mongodb:
     # password:
     database: rocketchat
 
+ # service:
+ #  port: 27017
+ #  clusterIP: ""
+
   architecture: replicaset
+ # replicaSetName: primary
   replicaCount: 1
   arbiter:
     enabled: false
@@ -123,7 +128,7 @@ mongodb:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
+    storageClass: "kadalu.ext-gluster-nvme-config"
     accessMode: ReadWriteOnce
     size: 8Gi
 
@@ -196,12 +201,12 @@ service:
 
   ## ServiceType
   ## ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
-  type: ClusterIP
+  type: LoadBalancer
 
   ## Optional static port assignment for service type NodePort.
-  # nodePort: 30000
-
-  port: 80
+  nodePort: ""
+  targetPort: 80
+  port: 7000
 
 ## Optional custom labels for the deployment resource.
 deploymentLabels: {}
