@@ -25,7 +25,6 @@ home: https://rocket.chat/
 icon: https://raw.githubusercontent.com/RocketChat/Rocket.Chat.Artwork/master/Logos/icon.svg
 sources:
   - https://github.com/RocketChat/Docker.Official.Image/
-engine: gotpl
 maintainers:
   - email: cloud@rocket.chat
     name: RocketChat
